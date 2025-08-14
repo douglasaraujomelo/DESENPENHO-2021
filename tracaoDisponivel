@@ -1,0 +1,54 @@
+function tracaoDisponivel = TracaoDisponivel(V, densidade_sjc)
+
+%%
+A = -0.00131;                                                               % termo relativo ao x2 da curva
+B = -0.0829;                                                               % termo relativa ao x da curva
+C = 2.463;                                                                % termo da curva
+
+densidade_recife = 1.16;                                                  % Densidade de recife
+
+%%
+
+tracaoDisponivel = ((densidade_sjc/densidade_recife) * (A*V.^2 + B + C)*(9.81)); % SII 4020-540KV [APC 15x8 E 6s]
+
+end
+%%
+% A = -0.0012;
+% B = -0.0786; % SII 4020-540KV [APC 15x8 6s]
+% C = 5.6575; 
+
+% A = -0.0011;
+% B = -0.1015; %HKII 4235-630KV L.E. [?]
+% C = 7.7687;
+
+% A = -0.0013;
+% B = -0.087; % SII 4025-520KV [MAX 14x9x3 6s]
+% C = 6.5663;
+
+%%
+%Curva magnum : tracaoDisponivel = ((densidade/DensidadeDoTeste)*(3.84 - 0.02*V - 0.0023*V.^2)*(9.81));
+%Curva e-calc : tracaoDisponivel = ((densidade/DensidadeDoTeste)*(-0.0014*V.^2   -0.1038*V +  4.2042)*(9.81));
+%Curva site APC 6000 RPM: tracaoDisponivel = ((densidade/DensidadeDoTeste)* ((-0.003*V.^2 - 0.0784*V + 4.9451)*(9.81)-6));
+%Curva 18x8 propeler selector : tracaoDisponivel = ((densidade/DensidadeDoTeste)*((-0.0051*V.^2 - 0.0157*V + 4.6093)*(9.81) - 3));
+
+%Curva magnum site APC 13000 RPM: tracaoDisponivel = ((densidade/DensidadeDoTeste)*( 3.88 - 0.1146*V -0.0016*V.^2)*(9.81));
+ 
+%Depois de analisar as curvas do Ecalch, propeler selector e Site da APC,
+%decidi usar do propeler reduzida a uma TE de 4.3 KG, pq achei as outras
+%curvas mt "retas", ou seja, não tem tanto decaimento em alta velocidade e
+%não consegui ensaiar nada para ter comparativos. Acho que dá pra estimar um pouco
+
+%Refiz as curvas de tração pelo ecalch pq to apanhando pra usar o Qprop,
+%vou usar os dados q peguei no teste estatico
+
+%18x8 : tracaoDisponivel = ((densidade/DensidadeDoTeste)* (-0.0021*V.^2 - 0.0803*V + 3.898)*(9.81));
+%17x8:  tracaoDisponivel = ((densidade/DensidadeDoTeste)* (-0.0019*V.^2 - 0.0732*V + 3.6752)*(9.81)); 
+%19x8:  tracaoDisponivel = ((densidade/DensidadeDoTeste)* (-0.0024*V.^2 - 0.0899*V + 4.2216+0.2)*(9.81));
+
+% tracaoDisponivel = ((densidade/DensidadeDoTeste)* (-0.0019*V.^2 - 0.0939*V + 5.7126)*(9.81));
+% tracaoDisponivel = ((densidade/DensidadeDoTeste) * (6.5663 - 0.087*V - 0.0013*V.^2)*(9.81)); % SII 4025-520KV [MAS 14x9x3 6s]
+% tracaoDisponivel = ((densidade/DensidadeDoTeste) * (-0.0021*V.^2 - 0.0803*V + 6.757)*(9.81));
+% tracaoDisponivel = ((densidade/DensidadeDoTeste)* (-0.0021*V.^2 - 0.0803*V + 3.898)*(9.81));
+% tracaoDisponivel = ((densidade/DensidadeDoTeste) * (5.6575 - 0.0786*V - 0.0012*V.^2)*(9.81)); % SII 4020-540KV [APC 15x8 E 6s]
+% tracaoDisponivel = ((densidade/DensidadeDoTeste) * (7.7687 - 0.1015.*V - 0.0011.*V.^2)*(9.81)); %HK alguma coisa
+
