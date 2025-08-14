@@ -1,0 +1,116 @@
+function [RCmax, AngS_max] = GraficosSubida(MTOW, AreaAsa, CDmin, K, CLminD)
+% GraficosSubida Plota os gráficos de razão de subida para diferentes pesos
+% e altitudes. Também retorna o RCmax no MTOW ao nível do mar.
+
+% Exemplo de uso:
+% [RCmax, AngS_max] = GraficosSubida(9, 0.54, 0.0824, 0.0859, 0.7945)
+
+% Inicialização dos vetores:
+V = 0.1:0.01:40;
+
+RC_900m = zeros(size(V));
+RC_1100m = zeros(size(V));
+RC_1200m = zeros(size(V));
+RC_1300m = zeros(size(V));
+RC_1500m = zeros(size(V));
+
+AngS_900m = zeros(size(V));
+AngS_1100m = zeros(size(V));
+AngS_1200m = zeros(size(V));
+AngS_1300m = zeros(size(V));
+AngS_1500m = zeros(size(V));
+
+for i = 1:length(V)
+    v = V(i);
+    
+    % Altitude 900m
+    densidade = altitudeDensidade_2_densidade(900);
+    [rc_tmp, ang_tmp] = v_subida(v, MTOW, densidade, AreaAsa, CDmin, K, CLminD);
+    RC_900m(i) = real(rc_tmp);
+    AngS_900m(i) = real(ang_tmp);
+    
+    % Altitude 1100m
+    densidade = altitudeDensidade_2_densidade(1100);
+    [rc_tmp, ang_tmp] = v_subida(v, MTOW, densidade, AreaAsa, CDmin, K, CLminD);
+    RC_1100m(i) = real(rc_tmp);
+    AngS_1100m(i) = real(ang_tmp);
+    
+    % Altitude 1200m
+    densidade = altitudeDensidade_2_densidade(1200);
+    [rc_tmp, ang_tmp] = v_subida(v, MTOW, densidade, AreaAsa, CDmin, K, CLminD);
+    RC_1200m(i) = real(rc_tmp);
+    AngS_1200m(i) = real(ang_tmp);
+    
+    % Altitude 1300m
+    densidade = altitudeDensidade_2_densidade(1300);
+    [rc_tmp, ang_tmp] = v_subida(v, MTOW, densidade, AreaAsa, CDmin, K, CLminD);
+    RC_1300m(i) = real(rc_tmp);
+    AngS_1300m(i) = real(ang_tmp);
+    
+    % Altitude 1500m
+    densidade = altitudeDensidade_2_densidade(1500);
+    [rc_tmp, ang_tmp] = v_subida(v, MTOW, densidade, AreaAsa, CDmin, K, CLminD);
+    RC_1500m(i) = real(rc_tmp);
+    AngS_1500m(i) = real(ang_tmp);
+end
+
+%% Gráfico 1: Razão de subida x Velocidade
+RCmax = max(RC_1200m);
+AngS_max = max(AngS_1200m);
+
+figure;
+p = plot(V, RC_900m, '-', V, RC_1100m, '-', V, RC_1200m, '-', ...
+         V, RC_1300m, '-', V, RC_1500m, '-');
+     
+set(p, 'LineWidth', 1.5);
+
+x0 = 400; y0 = 80; width = 800; height = 600;
+set(gcf, 'position', [x0, y0, width, height]);
+
+title('Razão de Subida X Velocidade', 'FontName', 'Times New Roman', 'FontSize', 12);
+xlabel('Velocidade do Ar [m/s]', 'FontName', 'Times New Roman', 'FontSize', 12);
+ylabel('Velocidade Vertical [m/s]', 'FontName', 'Times New Roman', 'FontSize', 12);
+xlim([6 22]); ylim([2 8]);
+
+set(gca, 'FontWeight', 'bold', 'LineWidth', 1.5);
+h = legend({'Altitude Densidade = 900 m','Altitude Densidade = 1100 m', ...
+            'Altitude Densidade = 1200 m','Altitude Densidade = 1300 m', ...
+            'Altitude Densidade = 1500 m'}, ...
+            'FontName', 'Times New Roman', 'FontSize', 10);
+rect = [0.29, 0.82, 0, 0];
+set(h, 'Position', rect);
+grid on;
+
+%% Gráfico 2: Ângulo de subida x Velocidade
+figure;
+p = plot(V, AngS_900m, '-', V, AngS_1100m, '-', V, AngS_1200m, '-', ...
+         V, AngS_1300m, '-', V, AngS_1500m, '-');
+     
+set(p, 'LineWidth', 1.5);
+
+set(gcf, 'position', [x0, y0, width, height]);
+title('Ângulo de Subida X Velocidade', 'FontName', 'Times New Roman', 'FontSize', 12);
+xlabel('Velocidade do Ar [m/s]', 'FontName', 'Times New Roman', 'FontSize', 12);
+ylabel('Ângulo de Subida [°]', 'FontName', 'Times New Roman', 'FontSize', 12);
+xlim([4 20]); ylim([10 40]);
+
+set(gca, 'FontWeight', 'bold', 'LineWidth', 1.5);
+h = legend({'Altitude Densidade = 900 m','Altitude Densidade = 1100 m', ...
+            'Altitude Densidade = 1200 m','Altitude Densidade = 1300 m', ...
+            'Altitude Densidade = 1500 m'}, ...
+            'FontName', 'Times New Roman', 'FontSize', 10);
+set(h, 'Position', rect);
+grid on;
+
+end
+
+
+
+
+
+
+
+
+
+[RCmax,AngS_max] = GraficosSubida( 5.75,0.105197,0.07067218942,0.1051965,0.7975198721 )
+
